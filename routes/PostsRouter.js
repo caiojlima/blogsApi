@@ -11,6 +11,8 @@ categoryIdExistValidation, PostController.createPost);
 
 PostsRouter.get('/', auth, PostController.getAllPosts);
 
+PostsRouter.get('/search', auth, PostController.searchPosts);
+
 PostsRouter.get('/:id', auth, PostController.getPostById);
 
 PostsRouter.put('/:id', auth, contentValidation, titleValidation,
