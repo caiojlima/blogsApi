@@ -1,4 +1,5 @@
 const { User } = require('../models');
+const { findUserByToken } = require('./Post');
 
 const emailExistenceValidation = async (email) => {
   const { length } = await User.findAll({ where: { email } });
@@ -22,9 +23,16 @@ const readWithId = async (id) => {
   return result;
 };
 
+const excludeWithToken = async (token) => {
+  const userInfo = await findUserByToken(token);
+  await User.destroy({ where: { id: userInfo.id } });
+  return true;
+};
+
 module.exports = {
   create,
   read,
   readWithId,
   emailExistenceValidation,
+  excludeWithToken,
 };
