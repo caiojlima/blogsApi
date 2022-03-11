@@ -19,7 +19,16 @@ const read = async () => {
   return result;
 };
 
+const readById = async (id) => {
+  const result = await BlogPost.findAll(
+    { where: { id },
+    include: [{ model: User, as: 'user' }, { model: Category, as: 'categories' }] },
+  );
+  return result;
+};
+
 module.exports = {
   create,
   read,
+  readById,
 };

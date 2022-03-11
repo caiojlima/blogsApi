@@ -11,4 +11,6 @@ categoryIdExistValidation, PostController.createPost);
 
 PostsRouter.get('/', auth, PostController.getAllPosts);
 
+PostsRouter.get('/:id', auth, PostController.getPostById);
+
 module.exports = PostsRouter;
