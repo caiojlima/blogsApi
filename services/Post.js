@@ -7,6 +7,15 @@ const findUserByToken = async (token) => {
   return userInfo;
 };
 
+const checkPostId = async (id) => {
+  const result = await BlogPost.findAll(
+    { where: { id },
+    include: [{ model: User, as: 'user' }, { model: Category, as: 'categories' }] },
+  );
+  if (!result.length) return false;
+  return true;
+};
+
 const create = async ({ title, content, categoryIds }, token) => {
   const userInfo = await findUserByToken(token);
   const result = await BlogPost.create({ title, content, userId: userInfo.id });
@@ -35,7 +44,7 @@ const readById = async (id) => {
 const verifyTokenIdAndPost = async (id, token) => {
   const userInfo = await findUserByToken(token);
   const [result] = await readById(id);
-  if (userInfo.id === result.dataValues.id) {
+  if (userInfo.id === +result.dataValues.id) {
     return true;
   }
   return false;
@@ -48,8 +57,16 @@ const update = async ({ id, title, content }, token) => {
   const [result] = await BlogPost.findAll(
     { where: { id }, include: { model: Category, as: 'categories' } },
   );
-  console.log({ result });
   return result.dataValues;
+};
+
+const exclude = async (id, token) => {
+  const isIdValid = await checkPostId(id);
+  if (!isIdValid) return { code: 404, message: 'Post does not exist' };
+  const isUserAllowed = await verifyTokenIdAndPost(id, token);
+  if (!isUserAllowed) return false;
+  await BlogPost.destroy({ where: { id } });
+  return true;
 };
 
 module.exports = {
@@ -57,4 +74,5 @@ module.exports = {
   read,
   readById,
   update,
+  exclude,
 };

@@ -16,4 +16,5 @@ PostsRouter.get('/:id', auth, PostController.getPostById);
 PostsRouter.put('/:id', auth, contentValidation, titleValidation,
 categoryIdUnauthorizedValidation, PostController.editPost);
 
+PostsRouter.delete('/:id', auth, PostController.deletePost);
 module.exports = PostsRouter;

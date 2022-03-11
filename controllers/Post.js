@@ -43,9 +43,23 @@ const editPost = async (req, res, next) => {
   }
 };
 
+const deletePost = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const token = req.headers.authorization;
+    const result = await PostServices.exclude(+id, token);
+    if (!result) return res.status(401).json({ message: 'Unauthorized user' });
+    if (result.code) return res.status(result.code).json({ message: result.message });
+    return res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
   editPost,
+  deletePost,
 };
