@@ -4,6 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     content: DataTypes.STRING,
     userId: { type: DataTypes.INTEGER, foreignKey: true },
+    published: { type: sequelize.fn('now') },
+    updated: { type: sequelize.fn('now') },
 
   }, { timestamps: false, tableName: 'BlogPosts' });
 

@@ -6,7 +6,7 @@ const categoryOptions = (PostCategories) => ({
 });
 
 const postOptions = (PostCategories) => ({
-  as: 'category',
+  as: 'categories',
   through: PostCategories,
   foreignKey: 'postId',
   otherKey: 'categoryId',
