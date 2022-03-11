@@ -69,6 +69,12 @@ const categoryIdExistValidation = async (req, res, next) => {
   next();
 };
 
+const categoryIdUnauthorizedValidation = (req, res, next) => {
+  const { categoryIds } = req.body;
+  if (!categoryIds) return next();
+  return res.status(400).json({ message: 'Categories cannot be edited' });
+};
+
 module.exports = {
   displayNameValidation,
   emailValidation,
@@ -78,4 +84,5 @@ module.exports = {
   contentValidation,
   categoryIdExistValidation,
   categoryIdValidation,
+  categoryIdUnauthorizedValidation,
 };
