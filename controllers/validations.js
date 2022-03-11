@@ -62,9 +62,7 @@ const categoryIdValidation = (req, res, next) => {
 
 const categoryIdExistValidation = async (req, res, next) => {
   const { categoryIds } = req.body;
-  console.log({ categoryIds });
   const isCategoryValid = await checkIfCategoryExists(categoryIds);
-  console.log({ isCategoryValid });
   if (!isCategoryValid) {
     return res.status(400).json({ message: '"categoryIds" not found' });
   }

@@ -2,14 +2,13 @@ const { Category } = require('../models');
 
 const checkIfCategoryExists = async (categories) => {
   let boolResponse = true;
-  await categories.forEach(async (category) => {
-    const result = await Category.findAll({ where: { id: category } });
-    console.log({ result });
-    if (result.length === 0) {
+  const result = await Category.findAll();
+  categories.forEach((categoryId) => {
+    const bool = result.some(({ dataValues }) => dataValues.id === categoryId);
+    if (!bool) {
       boolResponse = false;
     }
   });
-  console.log({ boolResponse });
   return boolResponse;
 };
 
