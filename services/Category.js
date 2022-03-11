@@ -5,10 +5,11 @@ const checkIfCategoryExists = async (categories) => {
   await categories.forEach(async (category) => {
     const result = await Category.findAll({ where: { id: category } });
     console.log({ result });
-    if (!result.length) {
+    if (result.length === 0) {
       boolResponse = false;
     }
   });
+  console.log({ boolResponse });
   return boolResponse;
 };
 
