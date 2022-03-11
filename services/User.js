@@ -1,5 +1,6 @@
 const { User } = require('../models');
 const { findUserByToken } = require('./Post');
+const { generateToken } = require('../utils/jwtHandler');
 
 const emailExistenceValidation = async (email) => {
   const { length } = await User.findAll({ where: { email } });
@@ -9,8 +10,9 @@ const emailExistenceValidation = async (email) => {
 const create = async ({ displayName, email, password, image }) => {
   const isEmailValid = await emailExistenceValidation(email);
   if (isEmailValid) return { message: 'User already registered' };
-  const result = await User.create({ displayName, email, password, image });
-  return result;
+  await User.create({ displayName, email, password, image });
+  const token = generateToken(email);
+  return token;
 };
 
 const read = async () => {

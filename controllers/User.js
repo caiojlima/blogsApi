@@ -2,11 +2,11 @@ const UserService = require('../services/User');
 
 const createUser = async (req, res, next) => {
   try {
-    const result = await UserService.create(req.body);
-    if (result.message) {
-      return res.status(409).json(result);
+    const token = await UserService.create(req.body);
+    if (token.message) {
+      return res.status(409).json(token);
     }
-    return res.status(201).json(result.dataValues);
+    return res.status(201).json({ token });
   } catch (e) {
     next(e);
   }
