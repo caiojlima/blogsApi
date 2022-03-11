@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     published: { type: sequelize.fn('now') },
     updated: { type: sequelize.fn('now') },
 
-  }, { timestamps: false, tableName: 'BlogPosts' });
+  }, { createdAt: 'published', updatedAt: 'updated', tableName: 'BlogPosts' });
 
   Post.associate = (models) => {
     Post.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });

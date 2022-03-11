@@ -72,12 +72,10 @@ const exclude = async (id, token) => {
 const search = async (query) => {
   const result = await read();
   const newArray = result.map(({ dataValues }) => dataValues);
-  console.log({ query });
   if (query === '') return result;
   const filteredArray = newArray.filter(({ title, content }) => (
     title.includes(query) || content.includes(query)
   ));
-    console.log({ filteredArray });
   return filteredArray;
 };
 
